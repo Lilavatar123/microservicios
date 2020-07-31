@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Microservicios.Infraestructura.Migrations
+namespace Microservicios.Repositorio.Migrations
 {
     public partial class EntidadProducto : Migration
     {

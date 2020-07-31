@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Microservicios.Dominio.Entidades
 {
-    public class Producto
+    public class Producto : EntidadDominio
     {
         public Guid  Id { get; set; }
         public string Nombre { get; set; }

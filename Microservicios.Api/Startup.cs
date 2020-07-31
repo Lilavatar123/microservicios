@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microservicios.Repositorio;
+using Microservicios.Servicio.Implementación;
+using Microservicios.Servicio.Interfaz;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,13 +31,16 @@ namespace Microservicios.Api
         {
             services.AddControllers();
 
-            services.AddDbContext<Infraestructura.PersistenceContext>(opt =>
+            services.AddDbContext<Repositorio.PersistenceContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("database"), sqlopts =>
                 {
                     sqlopts.MigrationsHistoryTable("_MigrationHistory", Configuration.GetValue<string>("SchemaName"));
                 });
             });
+            services.AddTransient(typeof(IRepositorio<>), typeof(Repositorio<>));
+            services.AddTransient(typeof(IProductoServicio), typeof(ProductoServicio));
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +60,13 @@ namespace Microservicios.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
+
+           });
+             app.UseOpenApi();
+             app.UseSwaggerUi3();
+
+
+
         }
     }
 }
