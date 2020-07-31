@@ -4,8 +4,10 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Microservicios.Infraestructura
+namespace Microservicios.Repositorio
+
 {
 
     public class PersistenceContext : DbContext
@@ -19,6 +21,11 @@ namespace Microservicios.Infraestructura
             Config = config;
 
 
+        }
+
+        public async Task CommitAsync()
+        {
+            await SaveChangesAsync().ConfigureAwait(false);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
